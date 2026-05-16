@@ -10,13 +10,11 @@ const josefin = Josefin_Sans({
 });
 
 export const metadata = {
-  // title: "The Wild Oasis",
   title: {
-    // %s is whatever the title of individual page that we put in each page of metadata as title
     template: "%s / The Wild Oasis",
     default: "The Wild Oasis",
   },
-  // vv imp for SEO is page description
+
   description:
     "Luxurious cabin hotel, located in the heart of Pakistan, Islamabad surrounded by the beautiful mountains and dark forests.",
 };

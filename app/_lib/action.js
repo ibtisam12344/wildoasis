@@ -14,15 +14,24 @@ export async function updateGuest(formData) {
 
   await connectDB();
 
-  const nationalID = formData.get("nationalID");
-  const [nationality, countryFlag] = formData.get("nationality").split("%");
+  const nationalID = formData.get("nationalID")?.trim();
+  const nationalityRaw = formData.get("nationality");
 
-  if (!/^[a-zA-Z0-9]{6,12}$/.test(nationalID))
-    throw new Error("Please provide a valid national ID");
+  if (!nationalityRaw) throw new Error("Please select a country");
+
+  const [nationality, countryFlag] = nationalityRaw.split("|||");
+
+  if (!nationalID || !/^[a-zA-Z0-9]{6,12}$/.test(nationalID))
+    throw new Error(
+      "Please provide a valid national ID (6–12 letters/numbers, no spaces or symbols)",
+    );
+
+  if (!nationality || !countryFlag)
+    throw new Error("Invalid country selection, please try again");
 
   await Guest.findByIdAndUpdate(session.user.guestId, {
-    nationality,
-    countryFlag,
+    nationality: nationality.trim(),
+    countryFlag: countryFlag.trim(),
     nationalID,
   });
 
@@ -71,8 +80,6 @@ export async function updateBooking(formData) {
 }
 
 export async function createBooking(bookingData, formData) {
-  console.log("bookingData", bookingData);
-  console.log("formData", formData);
   const session = await auth();
   if (!session?.user?.guestId) throw new Error("You must be logged in");
 
@@ -90,7 +97,7 @@ export async function createBooking(bookingData, formData) {
     isPaid: false,
     hasBreakfast: false,
     status: "unconfirmed",
-    cabin: bookingData.cabinId, // Important: use cabinId from bookingData
+    cabin: bookingData.cabinId,
     guest: session.user.guestId,
   };
 

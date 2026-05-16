@@ -6,8 +6,6 @@ import bg from "@/public/bg.png";
 export default function Page() {
   return (
     <main className="mt-24">
-      {/* fill will fill the entire page both side. like as we use background image in css we use here fill to use backgorund image , for this we need to give position relative to the parent */}
-      {/* placeholder="blur" when we load or realod website it will se blur unless it is loaded when it is loaded it will display the actual image */}
       <Image
         src={bg}
         fill

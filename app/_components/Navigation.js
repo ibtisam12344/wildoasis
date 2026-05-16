@@ -2,9 +2,7 @@ import Link from "next/link";
 import { auth } from "../_lib/auth";
 
 export default async function Navigation() {
-  // as this navigation is on every single route so it will make the entire website dynamic
-  // highly beneficial to keep this session on server compoenent , not at the client component
-  const session = await auth(); // this makes the route dynamic. this needs to be dynamic
+  const session = await auth();
 
   return (
     <nav className="z-10 text-xl">
